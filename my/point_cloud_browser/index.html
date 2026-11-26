@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DVLT Point Cloud Browser</title>
+    <link rel="stylesheet" href="/viewer.css">
+    <script type="importmap">{"imports":{"three":"/vendor/three.module.min.js"}}</script>
+    <script type="module" src="/viewer.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <h1><span>DVLT</span> Point Cloud Browser</h1>
+      <div class="dataset">
+        <label for="run">Prediction run</label>
+        <select id="run" disabled></select>
+      </div>
+    </header>
+    <main>
+      <section class="viewport" aria-label="3D point cloud">
+        <div id="canvas"></div>
+        <div id="status" class="status" role="status" aria-live="polite">Finding prediction runs…</div>
+        <div id="navigation" class="navigation" hidden>Drag to orbit <span>·</span> Right-drag to pan <span>·</span> Scroll to zoom</div>
+      </section>
+      <aside aria-label="Point cloud controls">
+        <div class="metrics">
+          <div><output id="point-count">—</output><span>Displayed points</span></div>
+          <div><output id="matching-count">—</output><span>Matching points</span></div>
+        </div>
+        <small id="available-count" class="available-count" hidden></small>
+        <fieldset id="controls" disabled>
+          <div class="control">
+            <label for="point-source">Point reconstruction</label>
+            <select id="point-source">
+              <option value="projected">Camera-projected</option>
+              <option value="direct">Direct ray points</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="view">Source image</label>
+            <select id="view"></select>
+          </div>
+          <div class="control">
+            <div class="control-heading">
+              <label for="confidence">Confidence percentile</label>
+              <output id="confidence-value" for="confidence">40%</output>
+            </div>
+            <input id="confidence" type="range" min="0" max="100" value="40" aria-describedby="confidence-note">
+            <small id="confidence-note">Keep the top 60% across this run.</small>
+          </div>
+          <div class="control">
+            <div class="control-heading">
+              <label for="size">Point size</label>
+              <output id="size-value" for="size">2.0 px</output>
+            </div>
+            <input id="size" type="range" min="1" max="6" step="0.5" value="2">
+          </div>
+          <div class="control">
+            <label for="point-color">Point color</label>
+            <select id="point-color">
+              <option value="image">Image colors</option>
+              <option value="solid">Solid light gray</option>
+              <option value="confidence">Confidence percentile</option>
+            </select>
+            <div id="confidence-legend" hidden>
+              <div class="confidence-ramp"></div>
+              <div class="confidence-labels"><span>0%</span><span>50%</span><span>100%</span></div>
+            </div>
+          </div>
+          <label class="checkbox"><input id="frustums" type="checkbox" checked> Show cameras</label>
+          <button id="fit" type="button">Fit view</button>
+        </fieldset>
+      </aside>
+    </main>
+  </body>
+</html>
